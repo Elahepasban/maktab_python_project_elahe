@@ -44,8 +44,7 @@ class FileHandler:
         for row in all_rows:
             if row["id"] == str(id):
                 return True
-            else:
-                return False
+        return False
 
     def delete_row(self, id):
         all_rows = self.read_file()
@@ -56,13 +55,15 @@ class FileHandler:
             final_rows.append(row)
         self.write_file(final_rows, mode="w")
 
-info_1 = {"id": 1, "name": "fateme", "last_name": "soleimani"}
-info_2 = {"id": 2, "name": "zahra", "last_name": "amiri"}
-my_file = FileHandler('n.csv')
-print(my_file.read_file())
+#
+# info_1 = {"id": 1, "name": "fateme", "last_name": "soleimani"}
+# info_2 = {"id": 2, "name": "zahra", "last_name": "amiri"}
+# my_file = FileHandler('n.csv')
+# print(my_file.read_file())
 #print(my_file.write_file(info_1))
-print(my_file.write_file(info_2))
-my_file.edit_row({"id": 1, "name": "fateme", "last_name": "fahimi"})
-print(my_file.read_file())
-my_file.delete_row(1)
-print(my_file.read_file())
+#print(my_file.write_file(info_2))
+# my_file.edit_row({"id": 1, "name": "fateme", "last_name": "fahimi"})
+#print(my_file.read_file())
+# my_file.delete_row(1)
+# print(my_file.read_file())
+
