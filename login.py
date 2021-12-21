@@ -19,7 +19,7 @@ def get_info(number):
             print('\t' * 14, 'Sequence of username character:\n', '\t' * 10,
                   '1)Number of college  2)Number of Field of Study  3)Entrance year\n', '\t' * 11,
                   'colleges: 1)Electricity 2)Mechanics 3)Computer 4)Sciences\n', '\t' * 6, 'Fields(if your college has'
-                  ' not any field of Study enter0): Sciences:{ 0)Math 1)Physics 2)chemistry }')
+                  ' not any field of Study enter0): Sciences:{ 0)Math 1)Physics 2)Chemistry }')
             student_username = input('Enter your username: ')
             student_password = input('Enter your password: ')
             if student_username.isdigit() and student_password:

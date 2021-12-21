@@ -1,12 +1,14 @@
+from file_handler import *
+
+
 class Student:
     def __init__(self):
         self.student_username = ''
         self.student_password = ''
 
     def get_student_info(self):
-
-
-
+        student_info = FileHandler(self.student_username+'.csv')
+        print(student_info.read_file())
     def view_courses_list(self):
         pass
 
@@ -18,9 +20,5 @@ class Student:
 
     def view_select_unit(self):
         pass
-
-
-
-
 
 

@@ -1,22 +1,28 @@
-from student import *
+# from student import *
 from login import *
 import logging
 from expect import *
-from
+from responsible_training import *
+
 
 def cls():
     print("\n" * 15)
 
-logging.basicConfig(level=logging.DEBUG,filename='app.log', filemode='w',format='%(process)d-%(levelname)s-%(message)s')
 
-print("Welcome to unit selection system of Science college\nWho are you?\n\n"
-      "1)Responsible_Training\t\t\t\t2)Student\t\t\t\t3)Register\n")
-while True:
-    entrance_user = input("Enter: ")
+logging.basicConfig(level=logging.DEBUG, filename='app.log', filemode='w',
+                    format='%(process)d-%(levelname)s-%(message)s')
+
+
+def menu():
+    entrance_user = input("Welcome to unit selection system of Science college\nWho are you?\n\n"
+          "1)Responsible_Training\t\t\t\t2)Student\t\t\t\t3)Register\n\nEnter:")
     if entrance_user == '1':
         cls()
+        create_lesson()
+        valueError(create_lesson)
     elif entrance_user == '2':
-        pass
+        cls()
+
     elif entrance_user == '3':
         cls()
         while True:
@@ -32,5 +38,5 @@ while True:
                 raise ValueError("That is not a right number!")
             except ValueError as ve:
                 print(ve)
-    else:
-        continue
+
+menu()

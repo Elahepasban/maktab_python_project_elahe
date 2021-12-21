@@ -67,3 +67,8 @@ class FileHandler:
 # my_file.delete_row(1)
 # print(my_file.read_file())
 
+# create file with header
+# with open(lesson_name_unique, 'w', newline='') as lesson_name_unique:
+#     writer = csv.writer(lesson_name_unique)
+#     writer.writerow(
+#         ['id', 'field_of_study', 'lesson_name', 'professor_name', 'unit_number', 'capacity', 'prerequisite'])
