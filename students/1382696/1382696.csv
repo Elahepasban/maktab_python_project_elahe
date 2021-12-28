@@ -1,4 +1,3 @@
-id,college,lesson_name,professor_name,unit_number,capacity,prerequisite,score
-1002,Math,Amar1,Akbary,3,26,Mabaniamar,18
+id,college,lesson_name,professor_name,unit_number,capacity,prerequisite,score
+1002,Math,Amar1,Akbary,3,26,Mabaniamar,18
 1001,Math,Math1,Reyhani,3,29,No,0
-1003,Math,Math2,Akbary,3,29,Amar1,0

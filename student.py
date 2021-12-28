@@ -1,7 +1,7 @@
 from file_handler import *
 import os
 import csv
-
+import log
 
 class Student:
     def __init__(self, password):
@@ -87,6 +87,7 @@ class Student:
                                     os.chdir(self.password)
                                     row['score'] = 0
                                     print(self.files.write_file(row))
+                                    log.info_logger.info('select courses successfully')
                                     continue
                         if n1 == 0:
                             print("This code is invalid!")
@@ -97,6 +98,7 @@ class Student:
                 return " "
             except ValueError as e:
                 print(f'{e} try again.')
+                log.warning_logger.error(f'{e}')
             # except TypeError as z:
             #     print(f'{z} try again.')
 

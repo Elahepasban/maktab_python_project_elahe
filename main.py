@@ -3,6 +3,8 @@ import hashlib
 from file_handler import *
 import os
 from csv import DictReader
+import Responsible_Training
+import student
 
 
 def cls():
@@ -40,7 +42,17 @@ while True:
             if get_info('responsible_trainings.csv'):
                 log.info_logger.info('User responsible training login.')
                 print('Welcome to your panel.')
+                rt_menu = int(input("1)Create lesson\n2)View student list\n3)View student panel\nNumber: "))
                 cls()
+                if rt_menu == 1:
+                    print(Responsible_Training.create_lesson())
+                elif rt_menu == 2:
+                    print(Responsible_Training.view_student_list())
+                elif rt_menu == 3:
+                    print(Responsible_Training.view_student_panel())
+                else:
+                    print('invalid number!')
+                    continue
             else:
                 log.warning_logger.error(f"User responsible training doesn't exist.")
                 print("Your username or password is invalid! try again.")
@@ -61,9 +73,20 @@ while True:
                     csv_dict_reader = DictReader(read_obj)
                     for row in csv_dict_reader:
                         print(f'Hi {row["firstname"]} {row["lastname"]}. Welcome to your panel.')
-                s_options = int(input('1)View my information\n2)View courses list\n3)Select unit\n4)'
-                                      'view courses selected'))
-
+                s_menu = int(input('1)View my information\n2)View courses list\n3)Select courses\n4)'
+                                   'view courses selected\nNumber: '))
+                student_ob = student.Student(c)
+                if s_menu == 1:
+                    print(student_ob.view_student_info())
+                elif s_menu == 2:
+                    print(student_ob.view_courses_list())
+                elif s_menu == 3:
+                    print(student_ob.select_courses())
+                elif s_menu == 4:
+                    print(student_ob.view_courses_select())
+                else:
+                    print('invalid number!')
+                    continue
             else:
                 log.warning_logger.error(f"User student doesn't exist.")
                 print("Your username or password is invalid! try again.")
@@ -89,5 +112,6 @@ while True:
             continue
 
     except Exception as v:
+        log.warning_logger.error(f'{v}')
         print(v)
 # print(menu())
