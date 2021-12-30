@@ -1,0 +1,12 @@
+
+2021-12-28 10:48:40 - ERROR - argument of type 'NoneType' is not iterable
+2021-12-28 10:49:08 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
+2021-12-28 11:19:20 - ERROR - string indices must be integers
+2021-12-28 11:19:24 - ERROR - string indices must be integers
+2021-12-28 11:19:35 - ERROR - string indices must be integers
+2021-12-28 11:20:37 - ERROR - string indices must be integers
+2021-12-28 11:22:15 - ERROR - string indices must be integers
+2021-12-28 11:30:33 - ERROR - invalid literal for int() with base 10: 'yt'
+2021-12-28 11:31:50 - ERROR - string indices must be integers
+2021-12-28 11:33:28 - ERROR - invalid literal for int() with base 10: 'dfv'
+2021-12-28 11:35:30 - ERROR - invalid literal for int() with base 10: 'awef'
