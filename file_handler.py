@@ -55,7 +55,10 @@ class FileHandler:
             final_rows.append(row)
         self.write_file(final_rows, mode="w")
 
-#
+
+# if __name__ == '__main__':
+#     print(__name__)
+
 # info_1 = {"id": 1, "name": "fateme", "last_name": "soleimani"}
 # info_2 = {"id": "2", "name": "zahra", "last_name": "amiri"}
 # my_file = FileHandler('o.csv')
@@ -63,7 +66,7 @@ class FileHandler:
 # print(my_file.write_file(info_1))
 # print(my_file.write_file(info_2))
 # my_file.edit_row({"id": 1, "name": "fateme", "last_name": "fahimi"})
-#print(my_file.read_file())
+# print(my_file.read_file())
 # my_file.delete_row(1)
 # print(my_file.read_file())
 
@@ -71,4 +74,6 @@ class FileHandler:
 # with open(lesson_name_unique, 'w', newline='') as lesson_name_unique:
 #     writer = csv.writer(lesson_name_unique)
 #     writer.writerow(
-#         ['id', 'field_of_study', 'lesson_name', 'professor_name', 'unit_number', 'capacity', 'prerequisite'])
+#         ['id', 'field_of_study', 'lesson_name', 'professor_name', 'unit_number', 'capacity',
+#         'prerequisite'])path_file = "test.csv"
+#

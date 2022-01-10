@@ -1,12 +1,27 @@
-
-2021-12-28 10:48:40 - ERROR - argument of type 'NoneType' is not iterable
-2021-12-28 10:49:08 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
-2021-12-28 11:19:20 - ERROR - string indices must be integers
-2021-12-28 11:19:24 - ERROR - string indices must be integers
-2021-12-28 11:19:35 - ERROR - string indices must be integers
-2021-12-28 11:20:37 - ERROR - string indices must be integers
-2021-12-28 11:22:15 - ERROR - string indices must be integers
-2021-12-28 11:30:33 - ERROR - invalid literal for int() with base 10: 'yt'
-2021-12-28 11:31:50 - ERROR - string indices must be integers
-2021-12-28 11:33:28 - ERROR - invalid literal for int() with base 10: 'dfv'
-2021-12-28 11:35:30 - ERROR - invalid literal for int() with base 10: 'awef'
+2022-01-08 20:48:25 - ERROR - [WinError 2] The system cannot find the file specified: '1378696'
+2022-01-08 20:49:39 - ERROR - string indices must be integers
+2022-01-08 20:50:10 - ERROR - string indices must be integers
+2022-01-08 21:13:39 - ERROR - invalid literal for int() with base 10: 'tgr'
+2022-01-08 21:16:47 - ERROR - [WinError 2] The system cannot find the file specified: '1378696'
+2022-01-08 21:24:01 - ERROR - string indices must be integers
+2022-01-08 21:24:34 - ERROR - [WinError 2] The system cannot find the file specified: '1378696'
+2022-01-08 21:33:03 - ERROR - [WinError 2] The system cannot find the file specified: '1378696'
+2022-01-08 21:55:37 - ERROR - string indices must be integers
+2022-01-08 21:57:29 - ERROR - string indices must be integers
+2022-01-08 21:58:11 - ERROR - string indices must be integers
+2022-01-08 21:58:32 - ERROR - string indices must be integers
+2022-01-08 21:59:00 - ERROR - string indices must be integers
+2022-01-08 22:01:34 - ERROR - string indices must be integers
+2022-01-08 22:01:50 - ERROR - string indices must be integers
+2022-01-08 22:14:20 - ERROR - string indices must be integers
+2022-01-08 22:15:02 - ERROR - string indices must be integers
+2022-01-08 22:17:05 - ERROR - string indices must be integers
+2022-01-08 22:18:14 - ERROR - string indices must be integers
+2022-01-08 22:22:17 - ERROR - string indices must be integers
+2022-01-08 22:22:26 - ERROR - string indices must be integers
+2022-01-08 22:22:46 - ERROR - string indices must be integers
+2022-01-08 22:26:24 - ERROR - list index out of range
+2022-01-08 22:27:11 - ERROR - list index out of range
+2022-01-08 22:29:06 - ERROR - list index out of range
+2022-01-08 22:31:04 - ERROR - list index out of range
+2022-01-08 22:39:52 - ERROR - list index out of range

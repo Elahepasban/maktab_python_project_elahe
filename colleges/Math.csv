@@ -1,11 +1,2 @@
-id,field_of_study,lesson_name,professor_name,unit_number,capacity,prerequisite
-,,,,,,
-1001,Math,Math1,Reyhani,3,29,No
-,,,,,,
-,,,,,,
-,,,,,,
-1002,Math,Amar1,Akbary,3,29,Mabaniamar
-,,,,,,
-,,,,,,
-,,,,,,
-1003,Math,Math2,Akbary,3,30,Amar1
+id,field_of_study,lesson_name,professor_name,unit_number,capacity,prerequisite
+1,Math,Math1,Reyhani,3,29,No

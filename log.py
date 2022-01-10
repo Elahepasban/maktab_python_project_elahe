@@ -13,3 +13,6 @@ info_handler.setFormatter(log_format)
 warning_handler.setFormatter(log_format)
 info_logger.addHandler(info_handler)
 warning_logger.addHandler(warning_handler)
+
+if __name__ == '__main__':
+    print(__name__)

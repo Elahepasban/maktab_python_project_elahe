@@ -3,6 +3,7 @@ import os
 import csv
 import log
 
+
 class Student:
     def __init__(self, password):
         self.info = []
@@ -14,7 +15,8 @@ class Student:
         self.files = FileHandler(self.password + '.csv')
 
     def view_student_info(self):
-        os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe\students")
+        os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
+                 r"\maktab_python_project_elahe - Copy\students")
         os.chdir(self.password)
         student_info = FileHandler('information.csv')
         cop = student_info.read_file().copy()
@@ -34,7 +36,8 @@ class Student:
 
     def view_courses_list(self):
         self.view_student_info()
-        os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe\colleges")
+        os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
+                 r"\maktab_python_project_elahe - Copy\colleges")
         with open(self.college + '.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -68,8 +71,8 @@ class Student:
                         continue
                     else:
                         os.chdir(
-                            r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe"
-                            r"\colleges")
+                            r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
+                            r"\maktab_python_project_elahe - Copy\colleges")
                         k = FileHandler(self.college + '.csv')
                         all_rows = k.read_file()
                         for row in all_rows:
@@ -82,11 +85,11 @@ class Student:
                                     print(row)
                                     k.edit_row(row)
                                     os.chdir(
-                                        r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\
-                                        maktab_python_project_elahe\students")
+                                        r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
+                                        r"\maktab_python_project_elahe - Copy\students")
                                     os.chdir(self.password)
                                     row['score'] = 0
-                                    print(self.files.write_file(row))
+                                    print(self.files.write_file(row), 'select courses successfully')
                                     log.info_logger.info('select courses successfully')
                                     continue
                         if n1 == 0:
@@ -107,8 +110,11 @@ class Student:
         q = units.read_file()
         for i in q:
             self.units += int(i['unit_number'])
-        return f'Yor units:{self.units}\nyour courses selected is:\n{self.files.read_file()}'
+        print(f'Yor units:{self.units}\nyour courses selected is:\n{self.files.read_file()}')
+        return ''
 
+# if __name__ == '__main__':
+#     print(__name__)
 
 # a = Student('1382696')
 # print(a.view_student_info())

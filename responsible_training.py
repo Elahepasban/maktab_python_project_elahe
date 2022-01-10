@@ -68,11 +68,11 @@ def view_student_panel():
         try:
             student_pass = input('Enter student password: ')
             student_fullname = student_pass.strip()
-            os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe")
+            os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe - Copy")
             file_m = FileHandler("students_list.csv")
             if file_m.check_unique_id(student_fullname):
                 os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
-                         r"\maktab_python_project_elahe\students")
+                         r"\maktab_python_project_elahe - Copy\students")
                 os.chdir(student_fullname)
                 print(os.getcwd())
                 s_info = FileHandler('information.csv')
@@ -80,16 +80,17 @@ def view_student_panel():
                 college = s_r[0]['college'].capitalize()
                 s_f = FileHandler(student_fullname + '.csv')
                 print(s_f.read_file())
-                rt_opinion = int(input("1)Accept courses\n2)Deny courses\nEnter: "))
+                rt_opinion = int(input("1)Accept courses\n2)Deny courses\n3)Exit\nEnter: "))
                 if rt_opinion == 1:
                     log.info_logger.info("Responsible training accept courses.")
                     return "courses accepted."
                 elif rt_opinion == 2:
-                    deny_c = int(input("Enter cod of course:"))
+                    deny_c = int(input("Enter code of course:"))
                     if s_f.check_unique_id(deny_c):
+                        print('true')
                         s_f.delete_row(deny_c)
                         os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
-                                 r"\maktab_python_project_elahe\colleges")
+                                 r"\maktab_python_project_elahe - Copy\colleges")
                         course_f = FileHandler(college + '.csv')
                         all_rows = course_f.read_file()
                         for row in all_rows:
@@ -104,20 +105,22 @@ def view_student_panel():
                         print('Code is invalid!')
                         continue
                 else:
-                    print('Enter 1 or 2')
-                    continue
+                    return " "
             else:
                 print('This student does not exist')
                 continue
-        except Exception as c:
+        except FileExistsError as c:
             log.warning_logger.error(f'{c}')
             print(c)
 
 
+# if __name__ == '__main__':
+#     print(__name__)
+
 # df.to_csv(os.path.join('myfolder', 'yourfilename.csv'))
 
 # print(create_lesson())
-print(view_student_panel())
+# print(view_student_panel())
 # directory_of_python_script = os.path.dirname(os.path.abspath('Math'))
 # df.to_csv(os.path.join(directory_of_python_script, 's.csv'))
 # if field_of_study.capitalize() == 'Math':
