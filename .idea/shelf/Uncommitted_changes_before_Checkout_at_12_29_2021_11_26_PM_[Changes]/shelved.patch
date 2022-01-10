@@ -1,0 +1,308 @@
+Index: student.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from file_handler import *\r\nimport os\r\nimport csv\r\nimport log\r\n\r\nclass Student:\r\n    def __init__(self, password):\r\n        self.info = []\r\n        self.password = password\r\n        self.list_selectable_courses = []\r\n        self.list_passed = []\r\n        self.units = 0\r\n        self.college = \" \"\r\n        self.files = FileHandler(self.password + '.csv')\r\n\r\n    def view_student_info(self):\r\n        os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\maktab_python_project_elahe\\students\")\r\n        os.chdir(self.password)\r\n        student_info = FileHandler('information.csv')\r\n        cop = student_info.read_file().copy()\r\n        del cop[0][\"id\"]\r\n        self.info = cop\r\n        self.college = self.info[0]['college'].capitalize()\r\n        # with open(self.password + '.csv', newline='') as cs:\r\n        read = self.files.read_file()\r\n        num = 0\r\n        for row in read:\r\n            for j in self.list_passed:\r\n                if j != row['lesson_name']:\r\n                    num += 1\r\n            if num == len(self.list_passed):\r\n                self.list_passed.append(row['lesson_name'])\r\n        return self.info\r\n\r\n    def view_courses_list(self):\r\n        self.view_student_info()\r\n        os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\maktab_python_project_elahe\\colleges\")\r\n        with open(self.college + '.csv', newline='') as csvfile:\r\n            reader = csv.DictReader(csvfile)\r\n            for row in reader:\r\n                if row['prerequisite'] == 'No':\r\n                    print(row)\r\n                else:\r\n                    for i in self.list_passed:\r\n                        if i == row['prerequisite']:\r\n                            print(row)\r\n            return \" \"\r\n\r\n    def select_courses(self):\r\n        n1 = 0\r\n        n2 = 0\r\n        self.view_student_info()\r\n        while self.units < 21:\r\n            try:\r\n                units = self.files\r\n                q = units.read_file()\r\n                for i in q:\r\n                    self.units += int(i['unit_number'])\r\n                select = int(input('Enter code of the course that you want(exit = enter 0): '))\r\n                if select == 0 and self.units > 9:\r\n                    break\r\n                elif select == 0 and self.units < 10:\r\n                    print(\"Your units is less than 9. You should select more courses!\")\r\n                    continue\r\n                elif select != 0:\r\n                    if self.files.check_unique_id(select):\r\n                        print('You select this course later. Select new course')\r\n                        continue\r\n                    else:\r\n                        os.chdir(\r\n                            r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\maktab_python_project_elahe\"\r\n                            r\"\\colleges\")\r\n                        k = FileHandler(self.college + '.csv')\r\n                        all_rows = k.read_file()\r\n                        for row in all_rows:\r\n                            if row[\"id\"] == str(select):\r\n                                n1 += 1\r\n                                q = int(row[\"capacity\"])\r\n                                if q > 0:\r\n                                    n2 += 1\r\n                                    row[\"capacity\"] = str(q - 1)\r\n                                    print(row)\r\n                                    k.edit_row(row)\r\n                                    os.chdir(\r\n                                        r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\\r\n                                        maktab_python_project_elahe\\students\")\r\n                                    os.chdir(self.password)\r\n                                    row['score'] = 0\r\n                                    print(self.files.write_file(row))\r\n                                    log.info_logger.info('select courses successfully')\r\n                                    continue\r\n                        if n1 == 0:\r\n                            print(\"This code is invalid!\")\r\n                            continue\r\n                        if n2 == 0:\r\n                            print(\"The capacity is full!\")\r\n                            continue\r\n                return \" \"\r\n            except ValueError as e:\r\n                print(f'{e} try again.')\r\n                log.warning_logger.error(f'{e}')\r\n            # except TypeError as z:\r\n            #     print(f'{z} try again.')\r\n\r\n    def view_courses_select(self):\r\n        units = self.files\r\n        q = units.read_file()\r\n        for i in q:\r\n            self.units += int(i['unit_number'])\r\n        return f'Yor units:{self.units}\\nyour courses selected is:\\n{self.files.read_file()}'\r\n\r\n\r\n# a = Student('1382696')\r\n# print(a.view_student_info())\r\n# print(a.college)\r\n# print(a.view_courses_select())\r\n# print(a.view_courses_list())\r\n# print(a.list_passed)\r\n# print(a.select_courses())\r\n# print(a.units)\r\n# print(a.manage_unit(1001))\r\n# print(a.view_courses_select())\r\n# def view_courses_list(self):\r\n#     list_passed = []\r\n#     # courses_permissible = []\r\n#     # os.chdir(r\"students\")\r\n#     # os.chdir(self.s_password)\r\n#     self.courses = FileHandler(self.s_password + '.csv')\r\n#     l = self.courses.read_file()\r\n#     for i in l:\r\n#         list_passed.append(i[\"lesson_name\"])\r\n#     os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\maktab_python_project_elahe\\colleges\")\r\n#     self.college = self.info[0][\"college\"].capitalize() + \".csv\"\r\n#     with open(self.college, 'r') as read_obj:\r\n#         csv_dict_reader = DictReader(read_obj)\r\n#         for row in csv_dict_reader:\r\n#             # row variable is a dictionary that represents a row in csv\r\n#             # if row[\"prerequisite\"] in list_passed:\r\n#             for j in list_passed:\r\n#                 if row[\"prerequisite\"] == j or row[\"prerequisite\"] == 'no':\r\n#                     self.courses_permissible.append(row)\r\n#                     return self.courses_permissible\r\n#                 else:\r\n#                     print('There is no lesson yet.It could be because of you do not pass prerequisites!')\r\n# def select_courses(self):\r\n#     courses_select_l = []\r\n#     print(f'Your list of courses:\\n')\r\n#     for i in self.courses_permissible:\r\n#         print(i)\r\n#     while True:\r\n#         try:\r\n#             select = int(input('Enter code of the course that you want(exit = enter 0): '))\r\n#             if select == 0:\r\n#                 break\r\n#             else:\r\n#                 for j in self.courses_permissible:\r\n#                     if j[\"id\"] == select:\r\n#                         if j['capacity'] > 0:\r\n#                             self.courses.write_file(j)\r\n#                             j['capacity'] -= 1\r\n#                             os.chdir(r\"colleges\")\r\n#                             courses_capacity = FileHandler(self.courses)\r\n#                             courses_capacity.edit_row(j)\r\n#                             courses_select_l.append(j)\r\n#                             return courses_select_l\r\n#     if i['id'] == select:\r\n#         num2 += 1\r\n#         if i['capacity'] > 0:\r\n\r\n#             num3 += 1\r\n# if num2 == 0:\r\n#     print(\"This code is invalid\")\r\n#     continue\r\n# elif num2 > 0 and num3 == 0:\r\n#     print(\"The capacity is full!\")\r\n#     continue\r\n# else:\r\n#     print('Select course successfully.')\r\n# os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\maktab_python_project_elahe\\colleges\")\r\n# file_n = self.info[0][\"college\"].capitalize() + '.csv'\r\n# file = FileHandler(file_n)\r\n# file_r = file.read_file()\r\n# for i in file_r:\r\n#     if i['id'] == select and i['capacity'] > 0:\r\n#         i['capacity'] -= 1\r\n#         file.edit_row(i)\r\n#         os.chdir(r\"students\")\r\n#         os.chdir(self.password)\r\n#         files = FileHandler(self.password + '.csv')\r\n#         i['score'] = 0\r\n#         files.write_file(i)\r\n#         self.units += i['unit_number']\r\n#         print('Select course successfully.')\r\n#         # num2 += 1\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/student.py b/student.py
+--- a/student.py	
++++ b/student.py	
+@@ -3,6 +3,7 @@
+ import csv
+ import log
+ 
++
+ class Student:
+     def __init__(self, password):
+         self.info = []
+@@ -17,13 +18,14 @@
+         os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe\students")
+         os.chdir(self.password)
+         student_info = FileHandler('information.csv')
++        # here show all of information without hash id
+         cop = student_info.read_file().copy()
+         del cop[0]["id"]
+         self.info = cop
+         self.college = self.info[0]['college'].capitalize()
+-        # with open(self.password + '.csv', newline='') as cs:
+         read = self.files.read_file()
+         num = 0
++        # here make list of courses that pass from courses file of student
+         for row in read:
+             for j in self.list_passed:
+                 if j != row['lesson_name']:
+@@ -35,8 +37,9 @@
+     def view_courses_list(self):
+         self.view_student_info()
+         os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe\colleges")
+-        with open(self.college + '.csv', newline='') as csvfile:
++        with open(self.college + '.csv', newline='') as csvfile:  # open course csv file
+             reader = csv.DictReader(csvfile)
++            # show courses that have not prerequisite or student pass it's prerequisite
+             for row in reader:
+                 if row['prerequisite'] == 'No':
+                     print(row)
+@@ -67,6 +70,7 @@
+                         print('You select this course later. Select new course')
+                         continue
+                     else:
++                        # course select and decrease capacity
+                         os.chdir(
+                             r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe"
+                             r"\colleges")
+@@ -84,6 +88,7 @@
+                                     os.chdir(
+                                         r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\
+                                         maktab_python_project_elahe\students")
++                                    # add the course to student courses csv file
+                                     os.chdir(self.password)
+                                     row['score'] = 0
+                                     print(self.files.write_file(row))
+@@ -110,6 +115,8 @@
+         return f'Yor units:{self.units}\nyour courses selected is:\n{self.files.read_file()}'
+ 
+ 
++if __name__ == '__main__':
++    print('main')
+ # a = Student('1382696')
+ # print(a.view_student_info())
+ # print(a.college)
+Index: responsible_training.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># مسِئول اموزش\r\nfrom file_handler import *\r\nimport os\r\nimport log\r\n\r\n\r\ndef check_college_rt(a):\r\n    c = 0\r\n    college_list = ['electricity', 'mechanics', 'computer', 'math', 'physics', 'chemistry']\r\n    for i in college_list:\r\n        if i == a.lower():\r\n            c += 1\r\n    if c == 1:\r\n        return True\r\n    else:\r\n        return False\r\n\r\n\r\n# class Responsible_Training:         #ساخت درس، مشاهده پنل دانشجویان\r\n#     def __init__(self,):\r\n\r\ndef create_lesson():\r\n    while True:\r\n        try:\r\n            lesson_info = {}\r\n            college = input('Enter college: ')\r\n            if check_college_rt(college):\r\n                lesson_code = int(input('Enter lesson_code: '))\r\n                lesson_name = input('Enter lesson name: ')\r\n                professor_name = input('Enter professor name: ')\r\n                unit_number = int(input('Enter unit number: '))\r\n                capacity = int(input('Enter capacity: '))\r\n                # lesson should pass\r\n                prerequisite = input('Enter prerequisite(if does not exist enter no): ')\r\n                new_pairs = [('id', lesson_code), ('college', college.capitalize()),\r\n                             ('lesson_name', lesson_name.capitalize()),\r\n                             ('professor_name', professor_name.capitalize()), ('unit_number', unit_number),\r\n                             ('capacity', capacity), ('prerequisite', prerequisite.capitalize())]\r\n                lesson_info.update(new_pairs)\r\n                print(lesson_info)\r\n                # lesson_name_unique = lesson_name + '.csv'\r\n                os.chdir(r'colleges')\r\n                # print(os.getcwdu())\r\n                for i in ['electricity', 'mechanics', 'computer', 'math', 'physics', 'chemistry']:\r\n                    if college.lower() == i:\r\n                        f = i.capitalize() + '.csv'\r\n                        lessons_file = FileHandler(f)\r\n                        lessons_file.write_file(lesson_info)\r\n                        log.info_logger.info('Lesson create successfully.')\r\n                        return 'Lesson create successfully.'\r\n                break\r\n            else:\r\n                print('Your college name is invalid! Try again.')\r\n                continue\r\n        except ValueError as e:\r\n            log.warning_logger.error(f'{e}')\r\n            print(\"Oops!  That was no valid input.  Try again...\")\r\n\r\n\r\ndef view_student_list():\r\n    # you want to see which of college\r\n    s_list = FileHandler('students_list.csv')\r\n    return s_list.read_file()\r\n\r\n\r\ndef view_student_panel():\r\n    while True:\r\n        try:\r\n            student_pass = input('Enter student password: ')\r\n            student_fullname = student_pass.strip()\r\n            os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\\maktab_python_project_elahe\")\r\n            file_m = FileHandler(\"students_list.csv\")\r\n            if file_m.check_unique_id(student_fullname):\r\n                os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\"\r\n                         r\"\\maktab_python_project_elahe\\students\")\r\n                os.chdir(student_fullname)\r\n                print(os.getcwd())\r\n                s_info = FileHandler('information.csv')\r\n                s_r = s_info.read_file()\r\n                college = s_r[0]['college'].capitalize()\r\n                s_f = FileHandler(student_fullname + '.csv')\r\n                print(s_f.read_file())\r\n                rt_opinion = int(input(\"1)Accept courses\\n2)Deny courses\\nEnter: \"))\r\n                if rt_opinion == 1:\r\n                    log.info_logger.info(\"Responsible training accept courses.\")\r\n                    return \"courses accepted.\"\r\n                elif rt_opinion == 2:\r\n                    deny_c = int(input(\"Enter cod of course:\"))\r\n                    if s_f.check_unique_id(deny_c):\r\n                        s_f.delete_row(deny_c)\r\n                        os.chdir(r\"C:\\Users\\Admin\\Desktop\\maktab65\\tamarin python\\پروژه پایتون\"\r\n                                 r\"\\maktab_python_project_elahe\\colleges\")\r\n                        course_f = FileHandler(college + '.csv')\r\n                        all_rows = course_f.read_file()\r\n                        for row in all_rows:\r\n                            if row[\"id\"] == str(deny_c):\r\n                                q = int(row[\"capacity\"])\r\n                                row[\"capacity\"] = str(q + 1)\r\n                                print(row)\r\n                                course_f.edit_row(row)\r\n                                log.info_logger.info(\"Responsible training deny course.\")\r\n                                return \"course deleted.\"\r\n                    else:\r\n                        print('Code is invalid!')\r\n                        continue\r\n                else:\r\n                    print('Enter 1 or 2')\r\n                    continue\r\n            else:\r\n                print('This student does not exist')\r\n                continue\r\n        except Exception as c:\r\n            log.warning_logger.error(f'{c}')\r\n            print(c)\r\n\r\n\r\n# df.to_csv(os.path.join('myfolder', 'yourfilename.csv'))\r\n\r\n# print(create_lesson())\r\nprint(view_student_panel())\r\n# directory_of_python_script = os.path.dirname(os.path.abspath('Math'))\r\n# df.to_csv(os.path.join(directory_of_python_script, 's.csv'))\r\n# if field_of_study.capitalize() == 'Math':\r\n#     lessons_file = FileHandler('Math.csv')\r\n#     lessons_file.write_file(lesson_info)\r\n# elif field_of_study.capitalize() == 'Physics':\r\n#     lessons_file = FileHandler('Physics.csv')\r\n#     lessons_file.write_file(lesson_info)\r\n# elif field_of_study.capitalize() == 'Chemistry':\r\n#     lessons_file = FileHandler('Chemistry.csv')\r\n#     lessons_file.write_file(lesson_info)\r\n# elif field_of_study.capitalize() == 'Computer':\r\n#     lessons_file = FileHandler('Computer.csv')\r\n#     lessons_file.write_file(lesson_info)\r\n# elif field_of_study.capitalize() == 'Mechanics':\r\n#     lessons_file = FileHandler('Mechanics.csv')\r\n#     lessons_file.write_file(lesson_info)\r\n# elif field_of_study.capitalize() == 'Electricity':\r\n#     lessons_file = FileHandler('Electricity.csv')\r\n#     lessons_file.write_file(lesson_info)\r\n# else:\r\n#     pass  # continue\r\n# return lessons_file\r\n
+===================================================================
+diff --git a/responsible_training.py b/responsible_training.py
+--- a/responsible_training.py	
++++ b/responsible_training.py	
+@@ -4,7 +4,7 @@
+ import log
+ 
+ 
+-def check_college_rt(a):
++def check_college_rt(a):  # this function check that college is exist or not
+     c = 0
+     college_list = ['electricity', 'mechanics', 'computer', 'math', 'physics', 'chemistry']
+     for i in college_list:
+@@ -16,7 +16,7 @@
+         return False
+ 
+ 
+-# class Responsible_Training:         #ساخت درس، مشاهده پنل دانشجویان
++# class Responsible_Training:          ساخت درس، مشاهده لیست دانشجویان، مشاهده پنل دانشجویان
+ #     def __init__(self,):
+ 
+ def create_lesson():
+@@ -32,17 +32,18 @@
+                 capacity = int(input('Enter capacity: '))
+                 # lesson should pass
+                 prerequisite = input('Enter prerequisite(if does not exist enter no): ')
++                # we want to add some key value to dictionary(lesson_info)
+                 new_pairs = [('id', lesson_code), ('college', college.capitalize()),
+                              ('lesson_name', lesson_name.capitalize()),
+                              ('professor_name', professor_name.capitalize()), ('unit_number', unit_number),
+                              ('capacity', capacity), ('prerequisite', prerequisite.capitalize())]
+                 lesson_info.update(new_pairs)
+                 print(lesson_info)
+-                # lesson_name_unique = lesson_name + '.csv'
+-                os.chdir(r'colleges')
++                os.chdir(r'colleges')  # change directory
+                 # print(os.getcwdu())
+                 for i in ['electricity', 'mechanics', 'computer', 'math', 'physics', 'chemistry']:
+                     if college.lower() == i:
++                        # here we go to course csv file
+                         f = i.capitalize() + '.csv'
+                         lessons_file = FileHandler(f)
+                         lessons_file.write_file(lesson_info)
+@@ -58,7 +59,7 @@
+ 
+ 
+ def view_student_list():
+-    # you want to see which of college
++    # you want to see all of students
+     s_list = FileHandler('students_list.csv')
+     return s_list.read_file()
+ 
+@@ -69,16 +70,16 @@
+             student_pass = input('Enter student password: ')
+             student_fullname = student_pass.strip()
+             os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون\maktab_python_project_elahe")
+-            file_m = FileHandler("students_list.csv")
++            file_m = FileHandler("students_list.csv")  # go to students csv file and check the password is exist
+             if file_m.check_unique_id(student_fullname):
+                 os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
+                          r"\maktab_python_project_elahe\students")
+                 os.chdir(student_fullname)
+-                print(os.getcwd())
++                # print(os.getcwd())
+                 s_info = FileHandler('information.csv')
+                 s_r = s_info.read_file()
+                 college = s_r[0]['college'].capitalize()
+-                s_f = FileHandler(student_fullname + '.csv')
++                s_f = FileHandler(student_fullname + '.csv')  # we want do to student courses file
+                 print(s_f.read_file())
+                 rt_opinion = int(input("1)Accept courses\n2)Deny courses\nEnter: "))
+                 if rt_opinion == 1:
+@@ -86,13 +87,13 @@
+                     return "courses accepted."
+                 elif rt_opinion == 2:
+                     deny_c = int(input("Enter cod of course:"))
+-                    if s_f.check_unique_id(deny_c):
++                    if s_f.check_unique_id(deny_c):  # check that student has course or not
+                         s_f.delete_row(deny_c)
+                         os.chdir(r"C:\Users\Admin\Desktop\maktab65\tamarin python\پروژه پایتون"
+                                  r"\maktab_python_project_elahe\colleges")
+                         course_f = FileHandler(college + '.csv')
+                         all_rows = course_f.read_file()
+-                        for row in all_rows:
++                        for row in all_rows:  # here increase capacity of course
+                             if row["id"] == str(deny_c):
+                                 q = int(row["capacity"])
+                                 row["capacity"] = str(q + 1)
+@@ -114,10 +115,13 @@
+             print(c)
+ 
+ 
++if __name__ == '__main__':
++    print('main')
++
+ # df.to_csv(os.path.join('myfolder', 'yourfilename.csv'))
+ 
+ # print(create_lesson())
+-print(view_student_panel())
++# print(view_student_panel())
+ # directory_of_python_script = os.path.dirname(os.path.abspath('Math'))
+ # df.to_csv(os.path.join(directory_of_python_script, 's.csv'))
+ # if field_of_study.capitalize() == 'Math':
+Index: log.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\n\r\nwarning_logger = logging.getLogger('warning')\r\ninfo_logger = logging.getLogger(__name__)\r\ninfo_logger.setLevel(logging.INFO)\r\ninfo_handler = logging.FileHandler('info.log')\r\nwarning_handler = logging.FileHandler('warning.log')\r\ninfo_handler.setLevel(logging.INFO)\r\nwarning_handler.setLevel(logging.WARNING)\r\nlog_format = logging.Formatter(\r\n    '%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')\r\ninfo_handler.setFormatter(log_format)\r\nwarning_handler.setFormatter(log_format)\r\ninfo_logger.addHandler(info_handler)\r\nwarning_logger.addHandler(warning_handler)\r\n
+===================================================================
+diff --git a/log.py b/log.py
+--- a/log.py	
++++ b/log.py	
+@@ -13,3 +13,5 @@
+ warning_handler.setFormatter(log_format)
+ info_logger.addHandler(info_handler)
+ warning_logger.addHandler(warning_handler)
++if __name__ == '__main__':
++    print('main')
+Index: register.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import hashlib\r\nfrom file_handler import *\r\nimport os\r\n\r\n\r\ndef cls():\r\n    print(\"\\n\" * 15)\r\n\r\n\r\ndef check_college(a):\r\n    c = 0\r\n    college_list = ['electricity', 'mechanics', 'computer', 'math', 'physics', 'chemistry']\r\n    for i in college_list:\r\n        if i == a.lower():\r\n            c += 1\r\n    if c == 1:\r\n        return True\r\n    else:\r\n        return False\r\n\r\n\r\ndef encode(u, p):\r\n    b = u + p\r\n    # encode it to bytes using UTF-8 encoding\r\n    message = b.encode()\r\n    i = hashlib.blake2s(message).hexdigest()\r\n    return i\r\n\r\n\r\ndef get_info(number):\r\n    if number == 1:\r\n        while True:\r\n            rt_firstname = input('Enter your first name: ')\r\n            rt_lastname = input('Enter your last name: ')\r\n            if rt_firstname.isalpha() and rt_lastname.isalpha():\r\n                print('Next step.')\r\n                cls()\r\n                while True:\r\n                    rt_username = input('Enter your username(7character): ')\r\n                    rt_password = input('Enter your password(7character): ')\r\n                    if len(rt_username) == 7 and rt_password.endswith(\"004\"):\r\n                        print('Remember your username and password.')\r\n                        rt_id = encode(rt_username, rt_password)\r\n                        rt_info = {'id': rt_id, 'rt_firstname': rt_firstname.strip(),\r\n                                   'rt_lastname': rt_lastname.strip()}\r\n                        rt_file = FileHandler('responsible_trainings.csv')\r\n                        print(rt_file.write_file(rt_info))\r\n                        break\r\n                    else:\r\n                        print(\"Your username or password is invalid!\")\r\n                        continue\r\n                print('You register successfully.')\r\n                break\r\n            else:\r\n                print('Input should be alphabet! Try again.')\r\n                continue\r\n    elif number == 2:\r\n        while True:\r\n            s_firstname = input('Enter your first name: ')\r\n            s_lastname = input('Enter your last name: ')\r\n            if s_firstname.isalpha() and s_lastname.isalpha():\r\n                s_college = input('Enter your college name(Electricity, Mechanics, Computer, '\r\n                                  'Sciences, Math, Physics, Chemistry): ')\r\n                if check_college(s_college):\r\n                    cls()\r\n                    while True:\r\n                        s_username = input('Enter your username(7character): ')\r\n                        s_password = (input('Enter your password(student number,7character): '))\r\n                        if len(s_username) == 7 and len(s_password) == 7 and s_password.isdigit():\r\n                            s_id = encode(s_username, s_password)\r\n                            s_info = {'id': s_password, 's_college': s_college, 's_firstname': s_firstname.strip(),\r\n                                      's_lastname': s_lastname.strip()}\r\n                            fields = [s_id, s_password, s_college, s_firstname, s_lastname]\r\n                            s_file = FileHandler('students_list.csv')\r\n                            s_file.write_file(s_info)\r\n                            # create file with header\r\n                            # s_file_name = s_firstname.capitalize().strip() + s_lastname.capitalize().strip() + '.csv'\r\n                            os.chdir(r\"students\")\r\n                            dirname = s_password.strip()\r\n                            try:\r\n                                # Create target Directory\r\n                                os.mkdir(dirname)\r\n                                os.chdir(dirname)\r\n                                with open(dirname + '.csv', 'w', newline='') as h:\r\n                                    writer = csv.writer(h)\r\n                                    writer.writerow(['id', 'college', 'lesson_name', 'professor_name',\r\n                                                     'unit_number', 'capacity', 'prerequisite', 'score'])\r\n                                with open('information.csv', 'w', newline='') as h:\r\n                                    writer = csv.writer(h)\r\n                                    writer.writerow(['id', 'password', 'college', 'firstname', 'lastname'])\r\n                                    u = csv.writer(h)\r\n                                    u.writerow(fields)\r\n                                print('Remember your username and password.')\r\n                                return 'You register successfully.'\r\n                            except FileExistsError:\r\n                                print(\"Directory \", dirname, \" already exists\")\r\n                        else:\r\n                            print(\"Please enter 7character!\")\r\n                            continue\r\n                    break\r\n                else:\r\n                    print('Your college name is invalid! Try again.')\r\n                    continue\r\n            else:\r\n                print('Your name should be alphabet! Try again.')\r\n                continue\r\n\r\n\r\n# print('\\t' * 14, 'Sequence of username character:\\n', '\\t' * 10,\r\n#       '1)Number of college  2)Number of Field of Study  3)Entrance year\\n', '\\t' * 11,\r\n#       'colleges: 1)Electricity 2)Mechanics 3)Computer 4)Sciences\\n', '\\t' * 6, 'Fields(if your college has'\r\n#     ' not any field of Study enter0): Sciences:{ 0)Math 1)Physics 2)Chemistry }')\r\nprint(get_info(2))\r\n
+===================================================================
+diff --git a/register.py b/register.py
+--- a/register.py	
++++ b/register.py	
+@@ -45,12 +45,13 @@
+                                    'rt_lastname': rt_lastname.strip()}
+                         rt_file = FileHandler('responsible_trainings.csv')
+                         print(rt_file.write_file(rt_info))
+-                        break
+-                    else:
+-                        print("Your username or password is invalid!")
++                        return 'You register successfully.'
++                    print("Your username or password is invalid!")
++                    inp = int(input('1)Continue\n2)Exit\nEnter number: '))
++                    if inp == 1:
+                         continue
+-                print('You register successfully.')
+-                break
++                    else:
++                        return 'exit'
+             else:
+                 print('Input should be alphabet! Try again.')
+                 continue
+@@ -65,7 +66,7 @@
+                     cls()
+                     while True:
+                         s_username = input('Enter your username(7character): ')
+-                        s_password = (input('Enter your password(student number,7character): '))
++                        s_password = input('Enter your password(student number,7character): ')
+                         if len(s_username) == 7 and len(s_password) == 7 and s_password.isdigit():
+                             s_id = encode(s_username, s_password)
+                             s_info = {'id': s_password, 's_college': s_college, 's_firstname': s_firstname.strip(),
+@@ -106,8 +107,10 @@
+                 continue
+ 
+ 
++if __name__ == '__main__':
++    print('main')
+ # print('\t' * 14, 'Sequence of username character:\n', '\t' * 10,
+ #       '1)Number of college  2)Number of Field of Study  3)Entrance year\n', '\t' * 11,
+ #       'colleges: 1)Electricity 2)Mechanics 3)Computer 4)Sciences\n', '\t' * 6, 'Fields(if your college has'
+ #     ' not any field of Study enter0): Sciences:{ 0)Math 1)Physics 2)Chemistry }')
+-print(get_info(2))
++# print(get_info(2))
+Index: warning.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n2021-12-28 10:48:40 - ERROR - argument of type 'NoneType' is not iterable\r\n2021-12-28 10:49:08 - ERROR - [WinError 2] The system cannot find the file specified: 'students'\r\n2021-12-28 11:19:20 - ERROR - string indices must be integers\r\n2021-12-28 11:19:24 - ERROR - string indices must be integers\r\n2021-12-28 11:19:35 - ERROR - string indices must be integers\r\n2021-12-28 11:20:37 - ERROR - string indices must be integers\r\n2021-12-28 11:22:15 - ERROR - string indices must be integers\r\n2021-12-28 11:30:33 - ERROR - invalid literal for int() with base 10: 'yt'\r\n2021-12-28 11:31:50 - ERROR - string indices must be integers\r\n2021-12-28 11:33:28 - ERROR - invalid literal for int() with base 10: 'dfv'\r\n2021-12-28 11:35:30 - ERROR - invalid literal for int() with base 10: 'awef'\r\n
+===================================================================
+diff --git a/warning.log b/warning.log
+--- a/warning.log	
++++ b/warning.log	
+@@ -10,3 +10,18 @@
+ 2021-12-28 11:31:50 - ERROR - string indices must be integers
+ 2021-12-28 11:33:28 - ERROR - invalid literal for int() with base 10: 'dfv'
+ 2021-12-28 11:35:30 - ERROR - invalid literal for int() with base 10: 'awef'
++2021-12-29 23:01:31 - ERROR - User responsible training doesn't exist.
++2021-12-29 23:02:17 - ERROR - string indices must be integers
++2021-12-29 23:02:20 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
++2021-12-29 23:02:29 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
++2021-12-29 23:02:33 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
++2021-12-29 23:03:05 - ERROR - string indices must be integers
++2021-12-29 23:03:07 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
++2021-12-29 23:04:41 - ERROR - string indices must be integers
++2021-12-29 23:04:45 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
++2021-12-29 23:06:03 - ERROR - string indices must be integers
++2021-12-29 23:06:06 - ERROR - [WinError 2] The system cannot find the file specified: 'students'
++2021-12-29 23:08:11 - ERROR - string indices must be integers
++2021-12-29 23:08:29 - ERROR - string indices must be integers
++2021-12-29 23:09:26 - ERROR - string indices must be integers
++2021-12-29 23:26:03 - ERROR - User student doesn't exist.
+Index: students/1378696/information.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>id,password,college,firstname,lastname\r\n03b3d55236fafde4c9c850242caf7d7c17725d6f60d9132a9fc4e149b2b8fba6,1378696,math,elahe,pasban\r\n
+===================================================================
+diff --git a/students/1378696/information.csv b/students/1378696/information.csv
+--- a/students/1378696/information.csv	
++++ b/students/1378696/information.csv	
+@@ -1,2 +1,2 @@
+ id,password,college,firstname,lastname
+-03b3d55236fafde4c9c850242caf7d7c17725d6f60d9132a9fc4e149b2b8fba6,1378696,math,elahe,pasban
++9b09c677140c9dd5d8dbe88a57edaa2ef3a38eb4844fd59cf9b6d8061f09379b,1378696,math,elahe,pasban
+Index: info.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>2021-12-28 11:36:24 - INFO - Responsible training deny course.\r\n
+===================================================================
+diff --git a/info.log b/info.log
+--- a/info.log	
++++ b/info.log	
+@@ -1,1 +1,2 @@
+ 2021-12-28 11:36:24 - INFO - Responsible training deny course.
++2021-12-29 22:39:17 - INFO - User responsible training login.
+Index: students_list.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>id,s_college,s_firstname,s_lastname\r\nmelika7,math,melika,karimi\r\r\nelahe78,math,elahe,pasban\r\r\n1378696,math,elahe,pasban\r\r\n1382696,math,melika,karimi\r\r\n
+===================================================================
+diff --git a/students_list.csv b/students_list.csv
+--- a/students_list.csv	
++++ b/students_list.csv	
+@@ -1,9 +1,3 @@
+ id,s_college,s_firstname,s_lastname
+-melika7,math,melika,karimi
+-
+-elahe78,math,elahe,pasban
+-
+-1378696,math,elahe,pasban
+-
+ 1382696,math,melika,karimi
+-
++1378696,math,elahe,pasban
